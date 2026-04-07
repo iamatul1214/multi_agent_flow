@@ -8,8 +8,10 @@ from langgraph.graph import START, StateGraph, END
 from langgraph.prebuilt import create_react_agent
 from langchain_core.messages import HumanMessage, AIMessage
 from prompt_library.prompt import system_prompt
+from IPython.display import Image, display
 from utils.llms import LLMModel
 from toolkit.toolkits import *
+
 
 class Router(TypedDict):
     next: Literal["information_node", "booking_node", "FINISH"]
@@ -144,3 +146,10 @@ class DoctorAppointmentAgent:
         self.graph.add_edge(START, "supervisor")
         self.app = self.graph.compile()
         return self.app
+
+    def store_agent_graph(self):    
+        graph = self.workflow()
+        #Saving the agent graph as a png file
+        graph.get_graph().draw_mermaid_png().save("agent_graph.png")
+        
+
